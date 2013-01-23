@@ -1,0 +1,3 @@
+To compile from scratch, run cmake .
+To recompile, run make
+Program usage: CCL <image> [size_filter]
