@@ -1,0 +1,43 @@
+Josiah Matlack
+EECS 332
+Machine Project 3
+
+******
+REPORT
+******
+In this project, I implemented histogram equalization and linear filtering.
+These functions are completed by two separated MATLAB files, HistoEqualization.m
+and LinearFilter.m. I chose to switch to MATLAB for this project after seeing
+the relative ease of use when contrasted with C++ and the OpenCV libraries.
+
+Histogram Equalization works in the following way. An image is converted to
+grayscale format, then each pixel is scanned successively. Each bin in a 
+vector of size 256 is incremented based on the number of pixels from the image
+in that bin. Then, the probability frequency of each of these bins is
+calculated. This probability, in turn, is used to create a cumulative
+distribution function of the pixel colors. Finally, this CDF is used to adjust
+the values of the pixels in the image, scaling each appropriately. This
+"balancing" clears up contrast-distorted images.
+
+The linear filter takes an approach similar to erosion and dilation. A kernel is
+used to probabilistically filter the input image. In my code, the kernel is
+a 3x3 matrix with values [1/16, 1/8, 1/16; 1/8, 1/4, 1/8; 1/16, 1/8, 1/16], as
+suggested by the textbook. The original image is padded with extra space, such
+that the filter does not run off the ends of the image. Then, the filter is
+applied to each 3x3 block, normalizing the lighting of the pixels based on the
+value of the 8-connected neighbors and the values in the kernel. This filter
+works to normalize the "brightness" of the image, so that extreme darks and
+lights are not as stark.
+
+*******
+RESULTS
+*******
+My code results are spot-on. After histogram equalization, as seen in
+histogram_equalization_output.png, my image is exactly identical to the MATLAB
+built-in function histeq. The image is significantly sharper and clearer, and
+closely mirrors the result in the handout.
+
+Results are similarly impressive for the linear filter. My results are identical
+to the MATLAB built-in function imfilter, as seen in linear_filter_output.png.
+The clarity is markedly reduced from the original image, which is not reflective
+of the result in the handout. However, I am confident in my results.
