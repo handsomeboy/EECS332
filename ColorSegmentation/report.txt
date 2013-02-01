@@ -1,0 +1,44 @@
+Josiah Matlack
+EECS 332
+Machine Project 3
+
+******
+REPORT
+******
+In this project, I implemented color segmentation. This is accomplished through
+three functions: crop.m, TrainDetector.m, and SegmentColor.m. Due to time
+constraints, I chose not to implement extra credit in this project, although
+I would like to implement the Gaussian method at a later time.
+
+Color segmentation works in the following way. First, the crop function is used
+to create a series of images, which are composed of cropped pixels of skin tones
+from various images collected on the internet. I collected images from
+imgur.com, looking for those with people with clearly defined faces and other
+skin. These images can be found as person1.jpg - person7.jpg. I also cropped
+from the provided .bmp images.
+
+After the skin pixels are cropped, TrainDetector runs next. TrainDetector loops
+through each of the files in the directory ending in .png, which I chose to
+differentiate files. Using these test images, it forms a matrix of hue and
+saturation  color values versus the frequency of such pairs. The matrix is then
+normalized to one by dividing by the sum of the pixels, ignoring whitespace.
+
+The normalized matrix is then passed as an argument to SegmentColor.
+SegmentColor picks a threshold value, in this case, 0.001 from empirical data.
+Then, the input image is scanned through, again in the HSI color model. Any HS
+pairs that are below the threshold are turned black, leaving only the skin
+pixels within the test data range with a black background.
+
+*******
+RESULTS
+*******
+My code results in a modest amount of color segmentation, however, the results
+are not perfect. I ran the tests on the three provided images, but not the
+images I downloaded from imgur.com, due to their wide variability in background
+and quality.
+
+The three output images can be found as gun1_output.png, joy1_output.png, and 
+pointer1_output.png. While the skin is clearly visible in all three tests, there
+is some evidence of false negatives, as the hands are sprinkled with black
+pixels. In addition, my code for some reason has difficulty filtering out very
+bright pixels, which is something I plan to fix in a future iteration.
