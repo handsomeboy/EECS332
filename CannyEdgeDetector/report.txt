@@ -1,0 +1,58 @@
+Josiah Matlack
+EECS 332
+Machine Project 5
+
+******
+REPORT
+******
+In this project, I implemented a canny edge detector. This is the most 
+complicated project thus far, and required extensive coding and testing. I 
+followed the model given in the specification, and implemented Gaussian 
+smoothing first.
+
+Gaussian smoothing convolutes an NxN Gaussian filter with the input image, 
+using standard deviation sigma. This produces a softened, smoothed image, which 
+allows for noise-free edge detection. Next, I calculated the image gradient, 
+which returns the magnitude and angle of the output vector at each pixel in the 
+image. The gradient is found by applying second derivative functions to the 
+smoothed image. This is the first step in the refinement of the edges, and 
+produces thick, bright borders around the most apparent features in the image. 
+I then empirically determine the low and high thresholds for edge cutoff by 
+analyzing the normalized histogram of the image gradient.
+
+Following the threshold calculation, I suppress nonmaxima points in the image 
+by reducing pixels to one of four radial directions given in the textbook. 
+These zones, numbered 0-3, are from -22.5 to 22.5 degrees, from 22.5 to 67.5 
+degrees, from 67.5 to 90 and -67.5 to 90 degrees, and from -22.5 to -67.5 
+degrees, respectively. The suppression and segmentation of these angles is 
+based on the calculated theta values from the image gradient step.
+
+Finally, I apply the edge linking algorithm. This algorithm starts with all the 
+points in the nonmaxima-suppressed image above the previously calculated high 
+threshold. Then, a second image with all the points above the low threshold is 
+searched recursively. If any points above the low threshold connect two high 
+threshold points together, all are put into the output image. Once edge linking 
+has completed, the final image has been calculated.
+
+*******
+RESULTS
+*******
+My output results can be found in the "Results" directory. I used my canny edge 
+detector on the four test images provided, with four different input 
+combinations for the size of the Gaussian filter, the standard deviation of the 
+filter, and the percent of pixels estimated to be non edge pixels. Images 
+appended with 1,2,3,4 use the following values respectively: [7, sqrt(2), 70], 
+[3, sqrt(2), 60], [64, 2, 70], and [7, 1, 50]. I also included the results of 
+each step of the detector on the 'lena.bmp' file, which I used extensively for 
+testing. These files are: "lena_gauss", "lena_gradient", and "lena_suppress". 
+The threshold values calculated were T_high = 0.1406, and T_low = 0.0703. 
+Finally, comparisons for each image are given with the Roberts, Soble, and 
+zerocross methods, and their corresponding files.
+
+Overall, I am very pleased with the results of my detector. Except for the 
+"test1" image, my detector invariably gives more accurate results. Using the 
+first or third set of input parameters, my results are essentially noise-free, 
+and much less noisy than the results of the other methods. In addition, edges 
+are more accurately detected and drawn in my detector than in other methods. 
+The "test1" image is better defined by the other methods than by some of my 
+results, but by changing the parameters, my detector produces similar results.

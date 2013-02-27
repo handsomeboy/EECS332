@@ -1,7 +1,6 @@
 function [Mag, Theta] = ImageGradient(img_in)
 
-    % Setup the input matrix and the output matrices.
-    %img_in = im2double(rgb2gray(imread(S)));
+    % Setup the output matrices.
     Mag = zeros(size(img_in));
     Theta = zeros(size(img_in));
 
@@ -23,4 +22,5 @@ function [Mag, Theta] = ImageGradient(img_in)
             Theta(i, j) = atan(Gy / Gx);
         end
     end
+    
 end

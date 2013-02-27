@@ -8,6 +8,8 @@ function [T_low, T_high] = FindThreshold(Mag, percentageOfNonEdge)
     if (mag_max > 0)
         % Normalize the input matrix.
         mag_norm = (Mag / mag_max);
+    else
+        mag_norm = Mag;
     end
     
     % Create a histogram of the normalized matrix.
