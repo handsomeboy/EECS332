@@ -1,0 +1,61 @@
+Josiah Matlack
+EECS 332
+Machine Project 6
+
+******
+REPORT
+******
+In this project, I implemented the Hough transform detector. The point of this 
+algorithm is to detect the line segments that make up geometric figures in an 
+image. Unlike an edge detector, the Hough transform looks for points of 
+intersection in order to reproduce shapes. The algorithm for finding these 
+points is converting the edge points of an image into polar equations, and 
+looking for common intersections of these polar lines. The most common 
+intersections are chosen as probable line values, and subsequently drawn.
+
+I implemented this detector in the following way. First, I get the edges of 
+the test image using a Canny edge detector. This eliminates noise and outlines 
+the possible shapes for detection. Next, I setup two matrices, for values of 
+rho and theta. For each edge point in the image, the full range of theta is 
+used to calculate rho with the equation:
+
+rho = x[image] * cos(theta) + y[image] * sin(theta)
+
+This is then compared to other possible line segments in the image. The most 
+common line segments found in the image are incremented, in a procedure called 
+"voting".
+
+Next, the local maxima from the voting procedure are collected as candidates. 
+These candidates are compared against the user-provided threshold, and those 
+below the threshold are discarded. The remaining [rho, theta] pairs are likely 
+candidates for lines, and are subsequently drawn over the edge image after 
+a conversion back to Cartesian coordinates using the equation y = mx + b.
+
+Theta and rho both have "resolutions". That is, the user can provide different 
+values for the "step" taken between each test value. Higher resolution 
+produces better quality detection, at the cost of computation time.
+
+*******
+RESULTS
+*******
+My output results can be found in the "Results" directory. I used my Hough 
+Transform algorithm on the three provided test images, as well as a test image 
+that I created, which is a basic square (test3.bmp). Overall, I am pleased 
+with my results. My detector was able to find the shapes of the three basic 
+images very well, and line resolution improved with higher [rho, theta] 
+resolution, as well as better empirical thresholding. The detector did not 
+work very well on the "input.bmp" image, but I believe this is due to poor 
+resolution and segmentation of the image, as well as very poor edge detection 
+results, rather than a flaw in my algorithm.
+
+The resulting images provided in the "Results" directory are based on the 
+empirically "best" results I could find by playing with parameters. In 
+general, I used rho = 1 and theta = 1 for parameters, with varying thresholds. 
+This is because [rho, theta] = [1, 1] provided the optimal resolution, while 
+still computing reasonably quickly. The values I used for the provided images 
+are:
+([rho, theta, threshold])
+[1, 1, 75] for test.bmp
+[1, 1, 89] for test2.bmp
+[1, 1, 26] for test3.bmp
+[1, 1, 74] for input.bmp
